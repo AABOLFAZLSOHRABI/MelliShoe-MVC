@@ -7,172 +7,274 @@ class view
     {
         ?>
         <!DOCTYPE html>
-        <html lang="fa" dir="rtl" class="scroll-smooth text-[16px]">
+        <html lang="fa" dir="rtl" class="scroll-smooth">
 
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title>ورود به پنل مدیریت | کفش ملی</title>
+            <title>پنل مدیریت | کفش ملی</title>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
             <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
                 rel="stylesheet" />
-            <script>
-                tailwind = {
-                    config: {
-                        theme: {
-                            extend: {
-                                fontFamily: {
-                                    vazir: ['Vazirmatn', 'system-ui', 'sans-serif'],
-                                },
-                                screens: {
-                                    nav: { max: '1200px' },
-                                    mobile: { max: '760px' },
-                                },
-                            },
-                        },
-                    },
-                };
-            </script>
             <script src="https://cdn.tailwindcss.com"></script>
+            <script>
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                'vazir': ['Vazirmatn', 'system-ui', 'sans-serif'],
+                            }
+                        }
+                    }
+                }
+            </script>
             <style>
-                /* subtle custom enhancements to match the reference design language */
-                .login-card {
-                    transition: all 0.2s ease;
-                }
-
-                .input-focus-ring:focus {
-                    outline: none;
-                    ring: 2px solid #00286d;
-                    ring-opacity: 0.2;
-                    border-color: #00286d;
-                }
-
-                /* additional smoothness */
-                button {
-                    transition: all 0.2s ease;
+                table th,
+                table td {
+                    text-align: right;
+                    vertical-align: middle;
                 }
             </style>
         </head>
+
         <?php
     }
     public function footer()
     {
         ?>
+        <script src="utils/script.js" defer></script>
         </body>
 
         </html>
         <?php
     }
 
-    public function index($message)
+    public function index($get_admins)
     {
         $this->header();
         ?>
-        <body class="m-0 bg-white font-vazir text-[#242424]">
-            <div class="min-w-[320px] overflow-x-hidden">
-                <main class="flex min-h-[calc(100vh-88px-398px)] items-center justify-center py-20 px-5 mobile:py-12">
-                    <!-- Centered login card - follows design language from reference (rounded corners, subtle shadows, bg-[#f8f5f0] surfaces, clean typography) -->
-                    <div class="w-full max-w-[540px]">
-                        <!-- Card container: elevated with shadow, soft rounded corners, border-light, bg-white same as product card style -->
+
+        <body class="font-vazir bg-gray-50 m-0 antialiased">
+
+            <!-- Sidebar (fixed, navy blue) -->
+            <aside class="fixed top-0 right-0 bottom-0 w-60 bg-[#00286d] z-40 flex flex-col overflow-y-auto">
+                <div class="flex items-center gap-2 p-5 border-b border-white/10">
+
+                    <span class="text-white text-lg font-extrabold">کفش ملی</span>
+                </div>
+                <nav class="flex-1 px-3 py-4">
+                    <div class="text-[11px] text-white/40 px-2 mt-2 mb-1 tracking-wide">اصلی</div>
+                    <button data-tab="dashboard"
+                        class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                        <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path d="M2 11h7V2H2v9zm0 7h7v-5H2v5zm9 0h7v-9h-7v9zm0-16v5h7V2h-7z" />
+                            </svg></span>
+                        داشبورد
+                    </button>
+                    <div class="text-[11px] text-white/40 px-2 mt-4 mb-1">مدیریت</div>
+                    <button data-tab="products"
+                        class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                        <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M4 3h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v10h10V5H5zm2 2h6v2H7V7zm0 4h6v2H7v-2z" />
+                            </svg></span>
+                        محصولات
+                    </button>
+                    <button data-tab="categories"
+                        class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                        <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M2 4a2 2 0 0 1 2-2h3.586A2 2 0 0 1 9 2.586L10.414 4H16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z" />
+                            </svg></span>
+                        دسته‌بندی‌ها
+                    </button>
+                    <button data-tab="comments"
+                        class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                        <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path d="M2 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-4 4V5z" />
+                            </svg></span>
+                        نظرات
+                        <span id="commentsBadge"
+                            class="mr-auto bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full hidden"></span>
+                    </button>
+                    <button data-tab="admins"
+                        class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                        <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M9 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-4 8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1z" />
+                            </svg></span>
+                        مدیران سیستم
+                    </button>
+                </nav>
+                <div class="p-3 border-t border-white/10">
+                    <div class="flex items-center gap-2 p-2 mb-2">
                         <div
-                            class="login-card rounded-[24px] bg-white shadow-[0_18px_48px_rgba(0,0,0,0.08)] border border-[rgba(165,165,165,0.25)] overflow-hidden">
-                            <!-- decorative top accent bar with brand dark blue -->
-                            <div class="h-2 bg-[#00286d]"></div>
-
-                            <div class="p-8 md:p-10">
-                                <!-- header with icon & title aligned to RTL context -->
-                                <div class="flex flex-col items-center text-center mb-8">
-                                    <div
-                                        class="mb-5 inline-flex h-20 w-20 items-center justify-center rounded-full bg-[#f8f5f0] shadow-sm">
-                                        <svg class="w-10 h-10 text-[#00286d]" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24" stroke-width="1.5" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-                                        </svg>
-                                    </div>
-                                    <h1
-                                        class="text-[32px] font-bold leading-[42px] tracking-[-0.96px] text-[#242424] mobile:text-[28px] mobile:leading-9">
-                                        ورود به پنل مدیریت
-                                    </h1>
-                                    <p class="mt-3 text-[16px] leading-[24px] tracking-[-0.48px] text-[#a5a5a5]">
-                                        دسترسی اختصاصی مدیران فروشگاه کفش ملی
-                                    </p>
-                                </div>
-                                <?php if ($message): ?>
-                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                                        <strong class="font-bold">خطا!</strong>
-                                        <span class="block sm:inline"><?php echo $message; ?></span>
-                                    </div>
-                                <?php endif; ?>
-                                <!-- Login Form -->
-                                <form class="flex flex-col gap-6" action="login.php" method="post">
-                                    <!-- Email input field -->
-                                    <div class="flex flex-col gap-2 text-right">
-                                        <label
-                                            class="flex items-center gap-1 text-[16px] font-bold leading-[22px] tracking-[-0.48px] text-[#242424]"
-                                            for="email">
-                                            <svg class="h-4 w-4 fill-[#00286d]" viewBox="0 0 20 20" aria-hidden="true">
-                                                <path
-                                                    d="M2.5 3.75h15a.625.625 0 0 1 .625.625v11.25a.625.625 0 0 1-.625.625h-15a.625.625 0 0 1-.625-.625V4.375A.625.625 0 0 1 2.5 3.75ZM10 10.625 3.125 6.25v8.125h13.75V6.25L10 10.625Zm0-1.25L16.25 5h-12.5L10 9.375Z" />
-                                            </svg>
-                                            ایمیل
-                                        </label>
-                                        <input type="email" id="email" name="email" autocomplete="email" required
-                                            class="w-full rounded-[12px] border border-[rgba(165,165,165,0.6)] bg-white px-4 py-3 text-[16px] leading-6 tracking-[-0.48px] text-[#242424] transition-all duration-150 placeholder:text-[#a5a5a5] focus:border-[#00286d] focus:outline-none focus:ring-2 focus:ring-[#00286d]/20"
-                                            placeholder="admin@mellishoes.ir" />
-                                    </div>
-
-                                    <!-- Password input field -->
-                                    <div class="flex flex-col gap-2 text-right">
-                                        <label
-                                            class="flex items-center gap-1 text-[16px] font-bold leading-[22px] tracking-[-0.48px] text-[#242424]"
-                                            for="password">
-                                            <svg class="h-4 w-4 fill-[#00286d]" viewBox="0 0 20 20" aria-hidden="true">
-                                                <path
-                                                    d="M10 2.5a4.375 4.375 0 0 0-4.375 4.375V8.75h8.75V6.875A4.375 4.375 0 0 0 10 2.5ZM4.375 8.75v-.875a5.625 5.625 0 0 1 11.25 0v.875h.625a1.875 1.875 0 0 1 1.875 1.875v6.25a1.875 1.875 0 0 1-1.875 1.875H4.375a1.875 1.875 0 0 1-1.875-1.875v-6.25a1.875 1.875 0 0 1 1.875-1.875h.625Z" />
-                                            </svg>
-                                            رمز عبور
-                                        </label>
-                                        <input type="password" id="password" name="password" autocomplete="current-password"
-                                            required
-                                            class="w-full rounded-[12px] border border-[rgba(165,165,165,0.6)] bg-white px-4 py-3 text-[16px] leading-6 tracking-[-0.48px] text-[#242424] transition-all duration-150 placeholder:text-[#a5a5a5] focus:border-[#00286d] focus:outline-none focus:ring-2 focus:ring-[#00286d]/20"
-                                            placeholder="••••••••" />
-                                    </div>
-                                    <!-- Submit button (primary call to action inspired by brand buttons) -->
-                                    <button type="submit" name="submit"
-                                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-[12px] bg-[#00286d] py-3.5 text-[16px] font-bold leading-6 tracking-[-0.48px] text-white transition-all duration-200 hover:bg-[#001f54] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#00286d]/50 active:scale-[0.98]">
-                                        <svg class="h-5 w-5 fill-white" viewBox="0 0 20 20" aria-hidden="true">
-                                            <path
-                                                d="M10 3.125a.625.625 0 0 1 .625.625v7.5a.625.625 0 1 1-1.25 0v-7.5A.625.625 0 0 1 10 3.125Z" />
-                                            <path
-                                                d="M9.118 9.632a.624.624 0 0 1 .882-.014l2.5 2.5a.624.624 0 0 1 0 .882l-2.5 2.5a.624.624 0 0 1-.882-.882l1.616-1.618-1.616-1.617a.625.625 0 0 1 0-.883Z" />
-                                            <path
-                                                d="M5.625 2.5a.624.624 0 0 1 .625.625V5h7.5V3.125a.624.624 0 1 1 1.25 0v13.75a.624.624 0 1 1-1.25 0V15h-7.5v1.875a.624.624 0 1 1-1.25 0V3.125a.624.624 0 0 1 .625-.625Z" />
-                                        </svg>
-                                        ورود به پنل مدیریت
-                                    </button>
-
-                                    <!-- subtle link to main site (main site styling pattern) -->
-                                    <div class="mt-5 text-center text-[14px] leading-5 tracking-[-0.48px] text-[#a5a5a5]">
-                                        <span>بازگشت به </span>
-                                        <a href="/MelliShoe-MVC"
-                                            class="font-medium text-[#00286d] transition-opacity duration-150 hover:opacity-70">صفحه
-                                            اصلی فروشگاه</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <!-- extra design note: decorative consistent with reference -->
-                        <div class="mt-8 text-center text-[12px] leading-5 text-[#a5a5a5]">
-                            <span class="inline-flex items-center gap-1">پنل امن مدیریت · کفش ملی</span>
+                            class="w-9 h-9 rounded-full bg-[#00286d] text-white flex items-center justify-center text-xs font-bold border border-white/20">
+                            مد</div>
+                        <div>
+                            <div class="text-white text-sm font-bold">مدیر ارشد</div>
+                            <div class="text-white/50 text-[11px]">admin@mellishoes.ir</div>
                         </div>
                     </div>
+                    <button onclick="alert('خروج از سیستم')"
+                        class="flex items-center gap-2 p-2 rounded-lg transition-all text-rose-300/90 hover:bg-white/5 w-full text-right">
+                        <span class="w-9 h-9 rounded-lg bg-rose-500/20 flex items-center justify-center shrink-0"><svg
+                                class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                                <path
+                                    d="M3 3h8a1 1 0 0 1 1 1v2h-2V5H4v10h6v-1h2v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm10.293 3.293 3.414 3.414a1 1 0 0 1 0 1.414l-3.414 3.414-1.414-1.414L13.586 11H7V9h6.586l-1.707-1.707 1.414-1.414z" />
+                            </svg></span>
+                        خروج از سیستم
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main wrapper with margin right = sidebar width -->
+            <div class="mr-60 min-h-screen bg-gray-50 flex flex-col">
+                <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-7 sticky top-0 z-30">
+                    <div class="text-lg font-extrabold text-[#1a1a2e]" id="pageTitle">داشبورد</div>
+                </header>
+
+                <main class="flex-1 p-7">
+                    <div id="dashboardSection"></div>
+                    <div id="productsSection" class="hidden"></div>
+                    <div id="categoriesSection" class="hidden"></div>
+                    <div id="commentsSection" class="hidden"></div>
+                    <div id="adminsSection" class="hidden"></div>
                 </main>
             </div>
 
-                <?php
-                $this->footer();
+            <!-- Product Modal -->
+            <div id="productModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                        <h3 class="text-white font-extrabold text-base" id="productModalTitle">افزودن محصول</h3>
+                        <button class="text-white/70 hover:text-white text-2xl leading-5 close-product-modal">×</button>
+                    </div>
+                    <div class="p-5">
+                        <form id="productForm">
+                            <input type="hidden" id="productId">
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">نام محصول *</label>
+                                <input id="prodName" type="text" required placeholder="کفش اسپرت نایک"
+                                    class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">برند محصول
+                                        *</label><input id="prodBrand" type="text" required placeholder="نایک"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                                </div>
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
+                                        *</label><select id="prodCategoryId" required
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none"></select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
+                                        *</label><input id="prodPrice" type="number" required placeholder="0"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت قبل
+                                        (تومان)</label><input id="prodOldPrice" type="number" placeholder="0"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                            </div>
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                                    id="prodImage" type="text" placeholder="images/shoe.jpg"
+                                    class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                        </form>
+                    </div>
+                    <div class="p-4 border-t border-gray-100 flex gap-2">
+                        <button onclick="document.getElementById('productForm').requestSubmit()"
+                            class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-[#001f54] transition">ذخیره</button>
+                        <button
+                            class="close-product-modal bg-white text-gray-700 border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold hover:bg-gray-50">انصراف</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Modal -->
+            <div id="categoryModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                        <h3 id="catModalTitle" class="text-white font-extrabold">دسته جدید</h3>
+                        <button class="text-white/70 hover:text-white text-2xl close-category-modal">×</button>
+                    </div>
+                    <div class="p-5">
+                        <form id="categoryForm"><input type="hidden" id="catId">
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام دسته *</label><input
+                                    id="catName" required placeholder="مردانه" class="w-full p-2 border rounded-xl"></div>
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                                    id="catImage" placeholder="img/category.jpg" class="w-full p-2 border rounded-xl"></div>
+                        </form>
+                    </div>
+                    <div class="p-4 border-t flex gap-2"><button
+                            onclick="document.getElementById('categoryForm').requestSubmit()"
+                            class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold">ذخیره</button><button
+                            class="close-category-modal bg-white border border-gray-300 rounded-xl px-4 py-2 text-sm">انصراف</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comment Modal -->
+            <div id="commentModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+                    <div class="bg-[#00286d] p-4 flex justify-between">
+                        <h3 id="commentModalTitle" class="text-white font-extrabold">ویرایش نظر</h3><button
+                            class="close-comment-modal text-white/70 hover:text-white text-2xl">×</button>
+                    </div>
+                    <div class="p-5">
+                        <form id="commentForm"><input type="hidden" id="commentId">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label>نام مشتری *</label><input id="commentCustomer" required
+                                        class="w-full p-2 border rounded-xl">
+                                </div>
+                                <div><label>امتیاز (1-5) *</label><input id="commentRating" type="number" min="1" max="5"
+                                        required class="w-full p-2 border rounded-xl"></div>
+                            </div>
+                            <div class="my-3"><label>متن نظر *</label><textarea id="commentText" rows="3"
+                                    class="w-full p-2 border rounded-xl"></textarea></div>
+                            <div class="flex items-center gap-2"><input type="checkbox" id="commentVerified"
+                                    class="w-4 h-4"><label class="text-sm font-semibold text-gray-700">تایید شده</label></div>
+                        </form>
+                    </div>
+                    <div class="p-4 border-t flex gap-2"><button
+                            onclick="document.getElementById('commentForm').requestSubmit()"
+                            class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button
+                            class="close-comment-modal bg-white border rounded-xl px-4 py-2">انصراف</button></div>
+                </div>
+            </div>
+
+            <!-- Admin Modal (password_hash removed) -->
+            <div id="adminModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+                    <div class="bg-[#00286d] p-4 flex justify-between">
+                        <h3 id="adminModalTitle" class="text-white font-extrabold">مدیر جدید</h3><button
+                            class="close-admin-modal text-white/70 hover:text-white text-2xl">×</button>
+                    </div>
+                    <div class="p-5">
+                        <form id="adminForm"><input type="hidden" id="adminId">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label>نام کاربری *</label><input id="adminUsername" required
+                                        class="w-full p-2 border rounded-xl">
+                                </div>
+                                <div><label>ایمیل *</label><input id="adminEmail" type="email" required
+                                        class="w-full p-2 border rounded-xl"></div>
+                            </div>
+                            <div class="my-3"><label>آخرین ورود (اختیاری)</label><input id="adminLastLogin"
+                                    placeholder="2025-02-01 14:30" class="w-full p-2 border rounded-xl"></div>
+                        </form>
+                    </div>
+                    <div class="p-4 border-t flex gap-2"><button onclick="document.getElementById('adminForm').requestSubmit()"
+                            class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button
+                            class="close-admin-modal bg-white border rounded-xl px-4 py-2">انصراف</button></div>
+                </div>
+            </div>
+
+            <?php
+            $this->footer();
     }
 }

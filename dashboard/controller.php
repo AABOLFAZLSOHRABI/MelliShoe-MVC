@@ -23,8 +23,12 @@ class controller
     public function index()
     {
         if ($this->is_logged_in()) {
+            $products = $this->model->get_products();
+            $categories = $this->model->get_categories();
+            $reviews = $this->model->get_reviews();
+            $admins = $this->model->get_admins();
+            $this->view->index($products, $categories, $reviews, $admins);
 
-            echo "Welcome to the admin dashboard!";
         } else {
             header('Location: login.php');
         }

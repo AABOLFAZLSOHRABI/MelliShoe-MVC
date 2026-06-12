@@ -12,11 +12,26 @@ class model
             die('Database error: ' . $e->getMessage());
         }
     }
-    public function get_admin($email)
+    public function get_products()
     {
-        $query = $this->db->prepare('SELECT id, password_hash FROM admins WHERE email = ? ');
-        $query->execute(array($email));
-        return $query->fetch();
+        $query = $this->db->query('SELECT * FROM products');
+        return $query->fetchAll();
+    }
+    public function get_categories()
+    {
+        $quwery = $this->db->query('SELECT * FROM categories');
+        return $quwery->fetchAll();
+    }
+    public function get_reviews()
+    {
+        $quwery = $this->db->query('SELECT * FROM reviews');
+        return $quwery->fetchAll();
+    }
+    public function get_admins()
+    {
+        $query = $this->db->prepare('SELECT id, username, email, last_login_at, created_at, updated_at FROM admins ');
+        $query->execute();
+        return $query->fetchAll();
     }
 
     public function __destruct()

@@ -1,7 +1,7 @@
 <?php
-require('index/view.php');
-require('index/model.php');
-require('index/controller.php');
+require('dashboard/view.php');
+require('dashboard/model.php');
+require('dashboard/controller.php');
 
 $controller = new controller();
 $controller->index();
