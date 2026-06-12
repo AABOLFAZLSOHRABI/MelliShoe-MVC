@@ -1,8 +1,8 @@
 <?php
 
-require('view.php');
-require('model.php');
-require('controller.php');
+require('index/view.php');
+require('index/model.php');
+require('index/controller.php');
 
 $controller = new controller();
 $controller->index();

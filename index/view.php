@@ -104,7 +104,7 @@ class view
                             <span class="w-2 text-center text-[24px] font-bold leading-none text-[#00286d]"
                                 aria-hidden="true">•</span>
                             <a class="grid h-[34px] w-[34px] place-items-center rounded-[6px] border border-[#a5a5a5] transition-opacity duration-150 ease-in hover:opacity-70"
-                                href="#" aria-label="حساب کاربری">
+                                href="login.php" aria-label="حساب کاربری">
                                 <svg class="block h-5 w-5 fill-black max-w-full" viewBox="0 0 20 20" aria-hidden="true">
                                     <path
                                         d="M10 1.54a4.29 4.29 0 1 1 0 8.58 4.29 4.29 0 0 1 0-8.58Zm0 10.83c4.11 0 7.28 2.76 7.28 5.96a.13.13 0 0 1-.25 0c0-3.25-3.27-5.71-7.03-5.71s-7.03 2.46-7.03 5.71a.13.13 0 0 1-.25 0c0-3.2 3.17-5.96 7.28-5.96Z" />

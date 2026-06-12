@@ -1,11 +1,7 @@
 <?php
-if (!session_id()) {
-    session_start();
-}
-if (isset($_SESSION['admin_panel']) && !empty($_SESSION['admin_panel'])) {
-    echo "Welcome to the admin dashboard!";
-} else {
-    header('Location: admin.php');
-    exit();
-}
-?>
+require('index/view.php');
+require('index/model.php');
+require('index/controller.php');
+
+$controller = new controller();
+$controller->index();
