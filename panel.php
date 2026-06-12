@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل مدیریت | کفش ملی</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        vazir: ['Vazirmatn', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        table th,
+        table td {
+            text-align: right;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body class="font-vazir bg-gray-50 m-0 antialiased">
+    <aside class="fixed top-0 right-0 bottom-0 w-60 bg-[#00286d] z-40 flex flex-col overflow-y-auto">
+        <div class="flex items-center gap-2 p-5 border-b border-white/10">
+            <span class="text-white text-lg font-extrabold">کفش ملی</span>
+        </div>
+        <nav class="flex-1 px-3 py-4">
+            <div class="text-[11px] text-white/40 px-2 mt-2 mb-1 tracking-wide">اصلی</div>
+            <button type="button" data-tab="dashboard"
+                class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                        class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                        <path d="M2 11h7V2H2v9zm0 7h7v-5H2v5zm9 0h7v-9h-7v9zm0-16v5h7V2h-7z" />
+                    </svg></span>
+                داشبورد
+            </button>
+            <div class="text-[11px] text-white/40 px-2 mt-4 mb-1">مدیریت</div>
+            <button type="button" data-tab="products"
+                class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                        class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M4 3h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v10h10V5H5zm2 2h6v2H7V7zm0 4h6v2H7v-2z" />
+                    </svg></span>
+                محصولات
+            </button>
+            <button type="button" data-tab="categories"
+                class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                        class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M2 4a2 2 0 0 1 2-2h3.586A2 2 0 0 1 9 2.586L10.414 4H16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z" />
+                    </svg></span>
+                دسته‌بندی‌ها
+            </button>
+            <button type="button" data-tab="comments"
+                class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                        class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                        <path d="M2 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-4 4V5z" />
+                    </svg></span>
+                نظرات
+                <span class="mr-auto bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full">2</span>
+            </button>
+            <button type="button" data-tab="admins"
+                class="sidebar-link flex items-center gap-2 p-2 rounded-lg transition-all text-white/70 hover:bg-white/10 hover:text-white w-full text-right mb-1">
+                <span class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0"><svg
+                        class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                        <path
+                            d="M9 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-4 8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1z" />
+                    </svg></span>
+                مدیران سیستم
+            </button>
+        </nav>
+        <div class="p-3 border-t border-white/10">
+            <div class="flex items-center gap-2 p-2 mb-2">
+                <div
+                    class="w-9 h-9 rounded-full bg-[#00286d] text-white flex items-center justify-center text-xs font-bold border border-white/20">
+                    مد</div>
+                <div>
+                    <div class="text-white text-sm font-bold">مدیر ارشد</div>
+                    <div class="text-white/50 text-[11px]">admin@mellishoes.ir</div>
+                </div>
+            </div>
+            <form action="dashboard/controller.php" method="post">
+                <input type="hidden" name="action" value="logout">
+                <button type="submit"
+                    class="flex items-center gap-2 p-2 rounded-lg transition-all text-rose-300/90 hover:bg-white/5 w-full text-right">
+                    <span class="w-9 h-9 rounded-lg bg-rose-500/20 flex items-center justify-center shrink-0"><svg
+                            class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20">
+                            <path
+                                d="M3 3h8a1 1 0 0 1 1 1v2h-2V5H4v10h6v-1h2v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm10.293 3.293 3.414 3.414a1 1 0 0 1 0 1.414l-3.414 3.414-1.414-1.414L13.586 11H7V9h6.586l-1.707-1.707 1.414-1.414z" />
+                        </svg></span>
+                    خروج از سیستم
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="mr-60 min-h-screen bg-gray-50 flex flex-col">
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-7 sticky top-0 z-30">
+            <div class="text-lg font-extrabold text-[#1a1a2e]" id="pageTitle">داشبورد</div>
+        </header>
+
+        <main class="flex-1 p-7">
+            <section id="dashboardSection">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-2xl border border-gray-100 p-5 flex flex-col gap-2 shadow-sm">
+                        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center"><svg
+                                class="w-5 h-5 fill-[#00286d]" viewBox="0 0 20 20">
+                                <path
+                                    d="M4 3h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm1 2v10h10V5H5zm2 2h6v2H7V7zm0 4h6v2H7v-2z" />
+                            </svg></div>
+                        <div class="text-3xl font-extrabold text-gray-900">3</div>
+                        <div class="text-sm font-semibold text-gray-500">محصولات</div>
+                    </div>
+                    <div class="bg-white rounded-2xl border p-5">
+                        <div class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center"><svg
+                                class="w-5 h-5 fill-green-600" viewBox="0 0 20 20">
+                                <path
+                                    d="M2 4a2 2 0 0 1 2-2h3.586A2 2 0 0 1 9 2.586L10.414 4H16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z" />
+                            </svg></div>
+                        <div class="text-3xl font-extrabold">3</div>
+                        <div class="text-sm font-semibold text-gray-500">دسته‌بندی‌ها</div>
+                    </div>
+                    <div class="bg-white rounded-2xl border p-5">
+                        <div class="w-11 h-11 rounded-xl bg-orange-50 flex items-center justify-center"><svg
+                                class="w-5 h-5 fill-orange-600" viewBox="0 0 20 20">
+                                <path d="M2 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6l-4 4V5z" />
+                            </svg></div>
+                        <div class="text-3xl font-extrabold">3</div>
+                        <div class="text-sm font-semibold text-gray-500">نظرات <span class="text-orange-600 text-xs">(2
+                                در انتظار)</span></div>
+                    </div>
+                    <div class="bg-white rounded-2xl border p-5">
+                        <div class="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center"><svg
+                                class="w-5 h-5 fill-purple-700" viewBox="0 0 20 20">
+                                <path
+                                    d="M9 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-4 8a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1z" />
+                            </svg></div>
+                        <div class="text-3xl font-extrabold">2</div>
+                        <div class="text-sm font-semibold text-gray-500">مدیران سیستم</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-2xl border overflow-hidden">
+                        <div class="flex justify-between items-center px-5 py-4 border-b">
+                            <h3 class="font-extrabold text-gray-800">آخرین نظرات</h3><button type="button"
+                                data-tab-target="comments" class="text-blue-600 text-sm font-bold bg-transparent">مشاهده
+                                همه</button>
+                        </div>
+                        <div>
+                            <div class="flex gap-3 p-4 border-b">
+                                <div class="flex-1">
+                                    <div class="font-bold text-gray-800">مهدی کریمی</div>
+                                    <div class="my-1"><span class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span></div>
+                                    <div class="text-xs text-gray-500">کیفیت عالی، ارسال سریع</div>
+                                </div>
+                                <div><span
+                                        class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">تایید</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 p-4">
+                                <div class="flex-1">
+                                    <div class="font-bold text-gray-800">سارا حسینی</div>
+                                    <div class="my-1"><span class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-amber-500 text-base">★</span><span
+                                            class="text-gray-300 text-base">★</span></div>
+                                    <div class="text-xs text-gray-500">جنس خوب، سایز دقیق</div>
+                                </div>
+                                <div><span
+                                        class="px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-800">در
+                                        انتظار</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border overflow-hidden">
+                        <div class="flex justify-between px-5 py-4 border-b">
+                            <h3 class="font-extrabold">محصولات اخیر</h3><button type="button" data-tab-target="products"
+                                class="text-blue-600 text-sm font-bold">مشاهده همه</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="p-3 text-right">نام محصول</th>
+                                        <th>برند</th>
+                                        <th>قیمت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-bold">کفش نایک ایر مکس</td>
+                                        <td>نایک</td>
+                                        <td>2,850,000 ت</td>
+                                    </tr>
+                                    <tr class="border-b">
+                                        <td class="p-3 font-bold">کفش آدیداس اولترا بوست</td>
+                                        <td>آدیداس</td>
+                                        <td>3,120,000 ت</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold">کفش پوما سوئد</td>
+                                        <td>پوما</td>
+                                        <td>1,950,000 ت</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="productsSection" class="hidden">
+                <div class="flex justify-between items-center mb-5">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-gray-900">مدیریت محصولات</h2>
+                        <p class="text-xs text-gray-400">3 محصول</p>
+                    </div><button type="button" data-modal-open="productModal"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold">+ افزودن محصول</button>
+                </div>
+                <div class="bg-white rounded-2xl border overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="p-3 text-right">#</th>
+                                    <th>نام محصول</th>
+                                    <th>برند</th>
+                                    <th>دسته</th>
+                                    <th>قیمت (تومان)</th>
+                                    <th>قیمت قبل</th>
+                                    <th>تاریخ</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3 text-gray-400 text-xs">1</td>
+                                    <td class="font-bold">کفش نایک ایر مکس</td>
+                                    <td>نایک</td>
+                                    <td><span
+                                            class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">مردانه</span>
+                                    </td>
+                                    <td>2,850,000</td>
+                                    <td class="line-through text-gray-400">3,490,000</td>
+                                    <td class="text-xs text-gray-400">2024-11-10</td>
+                                    <td><button type="button" data-modal-open="productEditModal"
+                                            class="text-blue-600 font-bold ml-2">ویرایش</button>
+                                        <form action="dashboard/controller.php" method="post" class="inline"><input
+                                                type="hidden" name="action" value="delete_product"><input type="hidden"
+                                                name="id" value="1"><button type="submit"
+                                                class="text-red-600 font-bold">حذف</button></form>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-3 text-gray-400 text-xs">2</td>
+                                    <td class="font-bold">کفش آدیداس اولترا بوست</td>
+                                    <td>آدیداس</td>
+                                    <td><span
+                                            class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">زنانه</span>
+                                    </td>
+                                    <td>3,120,000</td>
+                                    <td class="text-gray-400">—</td>
+                                    <td class="text-xs text-gray-400">2024-12-01</td>
+                                    <td><button type="button" data-modal-open="productEditModal"
+                                            class="text-blue-600 font-bold ml-2">ویرایش</button>
+                                        <form action="dashboard/controller.php" method="post" class="inline"><input
+                                                type="hidden" name="action" value="delete_product"><input type="hidden"
+                                                name="id" value="2"><button type="submit"
+                                                class="text-red-600 font-bold">حذف</button></form>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 text-gray-400 text-xs">3</td>
+                                    <td class="font-bold">کفش پوما سوئد</td>
+                                    <td>پوما</td>
+                                    <td><span
+                                            class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">مردانه</span>
+                                    </td>
+                                    <td>1,950,000</td>
+                                    <td class="line-through text-gray-400">2,400,000</td>
+                                    <td class="text-xs text-gray-400">2025-01-05</td>
+                                    <td><button type="button" data-modal-open="productEditModal"
+                                            class="text-blue-600 font-bold ml-2">ویرایش</button>
+                                        <form action="dashboard/controller.php" method="post" class="inline"><input
+                                                type="hidden" name="action" value="delete_product"><input type="hidden"
+                                                name="id" value="3"><button type="submit"
+                                                class="text-red-600 font-bold">حذف</button></form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="categoriesSection" class="hidden">
+                <div class="flex justify-between mb-5">
+                    <div>
+                        <h2 class="text-xl font-extrabold">دسته‌بندی‌ها</h2>
+                        <p class="text-xs text-gray-400">3 دسته</p>
+                    </div><button type="button" data-modal-open="categoryModal"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm">+ افزودن دسته</button>
+                </div>
+                <div class="bg-white rounded-2xl border overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-3">#</th>
+                                <th>نام دسته</th>
+                                <th>آدرس تصویر</th>
+                                <th>تعداد محصول</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-3 text-gray-400">1</td>
+                                <td class="font-bold">مردانه</td>
+                                <td class="text-gray-400 text-xs">/img/men.jpg</td>
+                                <td><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">2
+                                        محصول</span></td>
+                                <td><button type="button" data-modal-open="categoryEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_category"><input type="hidden"
+                                            name="id" value="1"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-3 text-gray-400">2</td>
+                                <td class="font-bold">زنانه</td>
+                                <td class="text-gray-400 text-xs">/img/women.jpg</td>
+                                <td><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">1
+                                        محصول</span></td>
+                                <td><button type="button" data-modal-open="categoryEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_category"><input type="hidden"
+                                            name="id" value="2"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 text-gray-400">3</td>
+                                <td class="font-bold">بچگانه</td>
+                                <td class="text-gray-400 text-xs">/img/kids.jpg</td>
+                                <td><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-xs">0
+                                        محصول</span></td>
+                                <td><button type="button" data-modal-open="categoryEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_category"><input type="hidden"
+                                            name="id" value="3"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="commentsSection" class="hidden">
+                <div class="flex justify-between mb-5">
+                    <div>
+                        <h2 class="text-xl font-extrabold">نظرات مشتریان</h2>
+                        <p class="text-xs">2 نظر در انتظار</p>
+                    </div><button type="button" data-modal-open="commentModal"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">+ ثبت نظر</button>
+                </div>
+                <div class="bg-white rounded-2xl border overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th>#</th>
+                                <th>مشتری</th>
+                                <th>امتیاز</th>
+                                <th>متن نظر</th>
+                                <th>وضعیت</th>
+                                <th>تاریخ</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-2">1</td>
+                                <td class="font-bold">مهدی کریمی</td>
+                                <td><span class="text-amber-500 text-base">★★★★★</span></td>
+                                <td class="max-w-xs truncate">کیفیت عالی، ارسال سریع</td>
+                                <td><span class="px-2 py-0.5 rounded-full text-xs bg-green-100 text-green-800">✓
+                                        تایید</span></td>
+                                <td class="text-xs">2025-02-01</td>
+                                <td><button type="button" data-modal-open="commentEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_comment"><input type="hidden"
+                                            name="id" value="1"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-2">2</td>
+                                <td class="font-bold">سارا حسینی</td>
+                                <td><span class="text-amber-500 text-base">★★★★</span><span
+                                        class="text-gray-300 text-base">★</span></td>
+                                <td class="max-w-xs truncate">جنس خوب، سایز دقیق</td>
+                                <td><span class="px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-800">در
+                                        انتظار</span></td>
+                                <td class="text-xs">2025-02-10</td>
+                                <td><button type="button" data-modal-open="commentEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_comment"><input type="hidden"
+                                            name="id" value="2"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2">3</td>
+                                <td class="font-bold">علی محمدی</td>
+                                <td><span class="text-amber-500 text-base">★★★</span><span
+                                        class="text-gray-300 text-base">★★</span></td>
+                                <td class="max-w-xs truncate">بسته‌بندی ضعیف بود</td>
+                                <td><span class="px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-800">در
+                                        انتظار</span></td>
+                                <td class="text-xs">2025-02-15</td>
+                                <td><button type="button" data-modal-open="commentEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_comment"><input type="hidden"
+                                            name="id" value="3"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="adminsSection" class="hidden">
+                <div class="flex justify-between mb-5">
+                    <div>
+                        <h2 class="text-xl font-extrabold">مدیران سیستم</h2>
+                        <p class="text-xs">2 مدیر</p>
+                    </div><button type="button" data-modal-open="adminModal"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">+ مدیر جدید</button>
+                </div>
+                <div class="bg-white rounded-2xl border overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th>#</th>
+                                <th>نام کاربری</th>
+                                <th>ایمیل</th>
+                                <th>آخرین ورود</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-2">1</td>
+                                <td class="font-bold">مدیر ارشد</td>
+                                <td>admin@mellishoes.ir</td>
+                                <td class="text-xs">2025-02-15 09:22</td>
+                                <td class="text-xs">2024-01-01</td>
+                                <td><button type="button" data-modal-open="adminEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_admin"><input type="hidden"
+                                            name="id" value="1"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-2">2</td>
+                                <td class="font-bold">پشتیبان</td>
+                                <td>support@mellishoes.ir</td>
+                                <td class="text-xs">2025-02-12 14:10</td>
+                                <td class="text-xs">2024-06-01</td>
+                                <td><button type="button" data-modal-open="adminEditModal"
+                                        class="text-blue-600 ml-2">ویرایش</button>
+                                    <form action="dashboard/controller.php" method="post" class="inline"><input
+                                            type="hidden" name="action" value="delete_admin"><input type="hidden"
+                                            name="id" value="2"><button type="submit" class="text-red-600">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="add_product">
+                <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                    <h3 class="text-white font-extrabold text-base">افزودن محصول</h3><button type="button"
+                        data-modal-close="productModal"
+                        class="text-white/70 hover:text-white text-2xl leading-5">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام محصول
+                            *</label><input name="name" type="text" required placeholder="کفش اسپرت نایک"
+                            class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">برند محصول
+                                *</label><input name="brand" type="text" required placeholder="نایک"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                        </div>
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
+                                *</label><select name="category_id" required
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                                <option value="1">مردانه</option>
+                                <option value="2">زنانه</option>
+                                <option value="3">بچگانه</option>
+                            </select></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
+                                *</label><input name="price" type="number" required placeholder="0"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت قبل
+                                (تومان)</label><input name="old_price" type="number" placeholder="0"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                    </div>
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                            name="image" type="text" placeholder="images/shoe.jpg"
+                            class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                </div>
+                <div class="p-4 border-t border-gray-100 flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-[#001f54] transition">ذخیره</button><button
+                        type="button" data-modal-close="productModal"
+                        class="bg-white text-gray-700 border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold hover:bg-gray-50">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="productEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="edit_product"><input type="hidden" name="id" value="1">
+                <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                    <h3 class="text-white font-extrabold text-base">ویرایش محصول نمونه</h3><button type="button"
+                        data-modal-close="productEditModal"
+                        class="text-white/70 hover:text-white text-2xl leading-5">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام محصول
+                            *</label><input name="name" type="text" required value="کفش نایک ایر مکس"
+                            class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">برند محصول
+                                *</label><input name="brand" type="text" required value="نایک"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                        </div>
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
+                                *</label><select name="category_id" required
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                                <option value="1" selected>مردانه</option>
+                                <option value="2">زنانه</option>
+                                <option value="3">بچگانه</option>
+                            </select></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
+                                *</label><input name="price" type="number" required value="2850000"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت قبل
+                                (تومان)</label><input name="old_price" type="number" value="3490000"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                    </div>
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                            name="image" type="text" value="/shoes/nike1.jpg"
+                            class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                </div>
+                <div class="p-4 border-t border-gray-100 flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-[#001f54] transition">ذخیره</button><button
+                        type="button" data-modal-close="productEditModal"
+                        class="bg-white text-gray-700 border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold hover:bg-gray-50">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="categoryModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="add_category">
+                <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                    <h3 class="text-white font-extrabold">دسته جدید</h3><button type="button"
+                        data-modal-close="categoryModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام دسته *</label><input
+                            name="name" required placeholder="مردانه" class="w-full p-2 border rounded-xl"></div>
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                            name="image" placeholder="img/category.jpg" class="w-full p-2 border rounded-xl"></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold">ذخیره</button><button
+                        type="button" data-modal-close="categoryModal"
+                        class="bg-white border border-gray-300 rounded-xl px-4 py-2 text-sm">انصراف</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="categoryEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="edit_category"><input type="hidden" name="id" value="1">
+                <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                    <h3 class="text-white font-extrabold">ویرایش دسته نمونه</h3><button type="button"
+                        data-modal-close="categoryEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام دسته *</label><input
+                            name="name" required value="مردانه" class="w-full p-2 border rounded-xl"></div>
+                    <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
+                            name="image" value="/img/men.jpg" class="w-full p-2 border rounded-xl"></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold">ذخیره</button><button
+                        type="button" data-modal-close="categoryEditModal"
+                        class="bg-white border border-gray-300 rounded-xl px-4 py-2 text-sm">انصراف</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="commentModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="add_comment">
+                <div class="bg-[#00286d] p-4 flex justify-between">
+                    <h3 class="text-white font-extrabold">ثبت نظر</h3><button type="button"
+                        data-modal-close="commentModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label>نام مشتری *</label><input name="customer_name" required
+                                class="w-full p-2 border rounded-xl"></div>
+                        <div><label>امتیاز (1-5) *</label><input name="rating" type="number" min="1" max="5" required
+                                class="w-full p-2 border rounded-xl"></div>
+                    </div>
+                    <div class="my-3"><label>متن نظر *</label><textarea name="comment" rows="3"
+                            class="w-full p-2 border rounded-xl"></textarea></div>
+                    <div class="flex items-center gap-2"><input type="checkbox" name="is_verified" value="1"
+                            class="w-4 h-4"><label class="text-sm font-semibold text-gray-700">تایید شده</label></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                        data-modal-close="commentModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="commentEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="edit_comment"><input type="hidden" name="id" value="1">
+                <div class="bg-[#00286d] p-4 flex justify-between">
+                    <h3 class="text-white font-extrabold">ویرایش نظر نمونه</h3><button type="button"
+                        data-modal-close="commentEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label>نام مشتری *</label><input name="customer_name" value="مهدی کریمی" required
+                                class="w-full p-2 border rounded-xl"></div>
+                        <div><label>امتیاز (1-5) *</label><input name="rating" type="number" min="1" max="5" value="5"
+                                required class="w-full p-2 border rounded-xl"></div>
+                    </div>
+                    <div class="my-3"><label>متن نظر *</label><textarea name="comment" rows="3"
+                            class="w-full p-2 border rounded-xl">کیفیت عالی، ارسال سریع</textarea></div>
+                    <div class="flex items-center gap-2"><input type="checkbox" name="is_verified" value="1" checked
+                            class="w-4 h-4"><label class="text-sm font-semibold text-gray-700">تایید شده</label></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                        data-modal-close="commentEditModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_admin">
+                <div class="bg-[#00286d] p-4 flex justify-between">
+                    <h3 class="text-white font-extrabold">مدیر جدید</h3><button type="button"
+                        data-modal-close="adminModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label>نام کاربری *</label><input name="username" required
+                                class="w-full p-2 border rounded-xl"></div>
+                        <div><label>ایمیل *</label><input name="email" type="email" required
+                                class="w-full p-2 border rounded-xl"></div>
+                    </div>
+                    <div class="my-3"><label>آخرین ورود (اختیاری)</label><input name="last_login_at"
+                            placeholder="2025-02-01 14:30" class="w-full p-2 border rounded-xl"></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                        data-modal-close="adminModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button></div>
+            </form>
+        </div>
+    </div>
+    <div id="adminEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+            <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
+                    value="edit_admin"><input type="hidden" name="id" value="1">
+                <div class="bg-[#00286d] p-4 flex justify-between">
+                    <h3 class="text-white font-extrabold">ویرایش مدیر نمونه</h3><button type="button"
+                        data-modal-close="adminEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
+                </div>
+                <div class="p-5">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label>نام کاربری *</label><input name="username" value="مدیر ارشد" required
+                                class="w-full p-2 border rounded-xl"></div>
+                        <div><label>ایمیل *</label><input name="email" type="email" value="admin@mellishoes.ir" required
+                                class="w-full p-2 border rounded-xl"></div>
+                    </div>
+                    <div class="my-3"><label>آخرین ورود (اختیاری)</label><input name="last_login_at"
+                            value="2025-02-15 09:22" class="w-full p-2 border rounded-xl"></div>
+                </div>
+                <div class="p-4 border-t flex gap-2"><button type="submit"
+                        class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                        data-modal-close="adminEditModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function setActiveSidebar(tabId) {
+            document.querySelectorAll('.sidebar-link').forEach(btn => {
+                btn.classList.remove('bg-white/20', 'text-white');
+                btn.classList.add('text-white/70');
+                if (btn.dataset.tab === tabId) {
+                    btn.classList.add('bg-white/20', 'text-white');
+                    btn.classList.remove('text-white/70');
+                }
+            });
+        }
+
+        function switchTab(tab) {
+            setActiveSidebar(tab);
+            ['dashboard', 'products', 'categories', 'comments', 'admins'].forEach(section => {
+                const element = document.getElementById(section + 'Section');
+                if (element) element.classList.toggle('hidden', section !== tab);
+            });
+            const titles = { dashboard: 'داشبورد', products: 'مدیریت محصولات', categories: 'دسته‌بندی‌ها', comments: 'نظرات مشتریان', admins: 'مدیران سیستم' };
+            document.getElementById('pageTitle').textContent = titles[tab];
+        }
+
+        function showModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function hideModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+        document.querySelectorAll('[data-tab-target]').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tabTarget)));
+        document.querySelectorAll('[data-modal-open]').forEach(btn => btn.addEventListener('click', () => showModal(btn.dataset.modalOpen)));
+        document.querySelectorAll('[data-modal-close]').forEach(btn => btn.addEventListener('click', () => hideModal(btn.dataset.modalClose)));
+        document.querySelectorAll('[id$="Modal"]').forEach(modal => modal.addEventListener('click', event => {
+            if (event.target === event.currentTarget) hideModal(modal.id);
+        }));
+        setActiveSidebar('dashboard');
+    </script>
+</body>
+
+</html>
