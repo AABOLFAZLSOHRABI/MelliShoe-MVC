@@ -477,7 +477,7 @@ class view
                 </section>
             </main>
         </div>
-
+            <!-- modal -->
         <div id="productModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
                 <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_product">
@@ -681,8 +681,8 @@ class view
                             <div><label>ایمیل *</label><input name="email" type="email" required
                                     class="w-full p-2 border rounded-xl"></div>
                         </div>
-                        <div class="my-3"><label>آخرین ورود (اختیاری)</label><input name="last_login_at"
-                                placeholder="2025-02-01 14:30" class="w-full p-2 border rounded-xl"></div>
+                        <div class="my-3"><label>رمز عبور *</label><input name="password" type="password" required
+                                class="w-full p-2 border rounded-xl"></div>
                     </div>
                     <div class="p-4 border-t flex gap-2"><button type="submit"
                             class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"

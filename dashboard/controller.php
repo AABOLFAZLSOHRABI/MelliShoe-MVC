@@ -28,10 +28,15 @@ class controller
             $reviews = $this->model->get_reviews();
             $admins = $this->model->get_admins();
             $reviews_waiting = $this->model->get_reviews_Waiting();
+
+            
+
             $this->view->index($products, $categories, $reviews, $admins, $reviews_waiting);
 
         } else {
             header('Location: login.php');
         }
     }
+
+
 }
