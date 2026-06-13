@@ -27,6 +27,11 @@ class model
         $quwery = $this->db->query('SELECT * FROM reviews');
         return $quwery->fetchAll();
     }
+        public function get_reviews_Waiting()
+    {
+        $quwery = $this->db->query('SELECT * FROM reviews WHERE is_verified = 0');
+        return $quwery->fetchAll();
+    }
     public function get_admins()
     {
         $query = $this->db->prepare('SELECT id, username, email, last_login_at, created_at, updated_at FROM admins ');
