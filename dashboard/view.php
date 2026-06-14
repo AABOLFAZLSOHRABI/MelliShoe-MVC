@@ -449,6 +449,7 @@ class view
                                     <th>نام کاربری</th>
                                     <th>ایمیل</th>
                                     <th>آخرین ورود</th>
+                                    <th>آخرین بروزرسانی</th>
                                     <th>تاریخ ایجاد</th>
                                     <th>عملیات</th>
                                 </tr>
@@ -459,15 +460,26 @@ class view
                                         <td class="p-2"><?php echo $admin['id']; ?></td>
                                         <td class="font-bold"><?php echo $admin['username']; ?></td>
                                         <td><?php echo $admin['email']; ?></td>
-                                        <td class="text-xs"><?php echo $admin['last_login_at']; ?></td>
+                                        <td class="text-xs"><?php echo $admin['last_login_at'] ?? 'هنوز وارد نشده'; ?></td>
+                                        <td class="text-xs"><?php echo $admin['updated_at']; ?></td>
                                         <td class="text-xs"><?php echo $admin['created_at']; ?></td>
-                                        <td><button type="button" data-modal-open="adminEditModal"
-                                                class="text-blue-600 ml-2">ویرایش</button>
-                                            <form action="dashboard/controller.php" method="post" class="inline"><input
-                                                    type="hidden" name="action" value="delete_admin"><input type="hidden" name="id"
-                                                    value="1"><button type="submit" class="text-red-600">حذف</button>
-                                            </form>
-                                        </td>
+                                        <?php
+                                        if ($admin['id'] == 1) {
+                                            ?>
+                                            <td><button type="button" data-modal-open="adminUpdateModal-<?php echo $admin['id']; ?>"
+                                                    class="text-blue-600 ml-2">ویرایش</button>
+                                            </td>
+                                            <?php
+                                        } else {
+                                            ?>
+                                            <td><button type="button" data-modal-open="adminUpdateModal-<?php echo $admin['id']; ?>"
+                                                    class="text-blue-600 ml-2">ویرایش</button>
+                                                <button type="button" data-modal-open="adminDeleteModal-<?php echo $admin['id']; ?>"
+                                                    class="text-red-600">حذف</button>
+                                            </td>
+                                            <?php
+                                        } ?>
+
                                     </tr><?php } ?>
 
 
@@ -477,7 +489,7 @@ class view
                 </section>
             </main>
         </div>
-            <!-- modal -->
+        <!-- modal -->
         <div id="productModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
                 <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_product">
@@ -669,7 +681,7 @@ class view
 
         <div id="adminModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_admin">
+                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="add_admin">
                     <div class="bg-[#00286d] p-4 flex justify-between">
                         <h3 class="text-white font-extrabold">مدیر جدید</h3><button type="button" data-modal-close="adminModal"
                             class="text-white/70 hover:text-white text-2xl">×</button>
@@ -690,31 +702,63 @@ class view
                 </form>
             </div>
         </div>
-        <div id="adminEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
-            <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
-                        value="edit_admin"><input type="hidden" name="id" value="1">
-                    <div class="bg-[#00286d] p-4 flex justify-between">
-                        <h3 class="text-white font-extrabold">ویرایش مدیر نمونه</h3><button type="button"
-                            data-modal-close="adminEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
-                    </div>
-                    <div class="p-5">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><label>نام کاربری *</label><input name="username" value="مدیر ارشد" required
-                                    class="w-full p-2 border rounded-xl"></div>
-                            <div><label>ایمیل *</label><input name="email" type="email" value="admin@mellishoes.ir" required
-                                    class="w-full p-2 border rounded-xl"></div>
+        <?php foreach ($admins as $admin) { ?>
+            <div id="adminUpdateModal-<?php echo $admin['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+                    <form action="dashboard.php" method="post"><input type="hidden" name="action" value="update_admin"><input
+                            type="hidden" name="id" value="<?php echo $admin['id']; ?>">
+                        <div class="bg-[#00286d] p-4 flex justify-between">
+                            <h3 class="text-white font-extrabold">ویرایش مدیر</h3><button type="button"
+                                data-modal-close="adminUpdateModal-<?php echo $admin['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl">×</button>
                         </div>
-                        <div class="my-3"><label>آخرین ورود (اختیاری)</label><input name="last_login_at"
-                                value="2025-02-15 09:22" class="w-full p-2 border rounded-xl"></div>
-                    </div>
-                    <div class="p-4 border-t flex gap-2"><button type="submit"
-                            class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
-                            data-modal-close="adminEditModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button>
-                    </div>
-                </form>
+                        <div class="p-5">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label>نام کاربری *</label><input name="username" value="<?php echo $admin['username']; ?>"
+                                        required class="w-full p-2 border rounded-xl"></div>
+                                <div><label>ایمیل *</label><input name="email" type="email" value="<?php echo $admin['email']; ?>"
+                                        required class="w-full p-2 border rounded-xl"></div>
+                            </div>
+
+                        </div>
+                        <div class="p-4 border-t flex gap-2"><button type="submit"
+                                class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                                data-modal-close="adminUpdateModal-<?php echo $admin['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php } ?>
+        <?php foreach ($admins as $admin) { ?>
+            <div id="adminDeleteModal-<?php echo $admin['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <form action="dashboard.php" method="post">
+                        <input type="hidden" name="action" value="delete_admin">
+                        <input type="hidden" name="id" value="<?php echo $admin['id']; ?>">
+                        <div class="bg-red-600 p-4 flex justify-between">
+                            <h3 class="text-white font-extrabold">حذف مدیر</h3>
+                            <button type="button" data-modal-close="adminDeleteModal-<?php echo $admin['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl">×</button>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-sm text-gray-700 leading-7">
+                                آیا از حذف مدیر
+                                <span class="font-bold text-gray-900"><?php echo $admin['username']; ?></span>
+                                مطمئن هستید؟
+                            </p>
+                        </div>
+                        <div class="p-4 border-t flex gap-2">
+                            <button type="submit" class="bg-red-600 text-white rounded-xl px-4 py-2">حذف</button>
+                            <button type="button" data-modal-close="adminDeleteModal-<?php echo $admin['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <?php } ?>
         <?php
         $this->footer();
     }

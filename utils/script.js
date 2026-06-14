@@ -36,4 +36,9 @@ document.querySelectorAll('[data-modal-close]').forEach(btn => btn.addEventListe
 document.querySelectorAll('[id$="Modal"]').forEach(modal => modal.addEventListener('click', event => {
     if (event.target === event.currentTarget) hideModal(modal.id);
 }));
-setActiveSidebar('dashboard');
+const params = new URLSearchParams(window.location.search);
+const allowedTabs = ['dashboard', 'products', 'categories', 'comments', 'admins'];
+const requestedTab = params.get('tab') || 'dashboard';
+const activeTab = allowedTabs.includes(requestedTab) ? requestedTab : 'dashboard';
+
+switchTab(activeTab);

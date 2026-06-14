@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Tehran');
 class model
 {
     protected $db;
@@ -44,6 +44,16 @@ class model
         $query = $this->db->prepare('INSERT INTO admins (username, email, password_hash, created_at, updated_at) VALUES (?, ?, ?, ?, ?)');
         return $query->execute(array($username, $email, $password_hash, $created_at, $updated_at));
 
+    }
+    public function delete_admin($id)
+    {
+        $query = $this->db->prepare('DELETE FROM admins WHERE id = ?');
+        return $query->execute(array($id));
+    }
+    public function update_admin($id, $username, $email)
+    {
+        $query = $this->db->prepare('UPDATE admins SET username = ?, email = ?, updated_at = ? WHERE id = ?');
+        return $query->execute(array($username, $email, date('Y-m-d H:i:s'), $id));
     }
 
     public function __destruct()
