@@ -74,6 +74,25 @@ class model
         $query = $this->db->prepare('UPDATE reviews SET customer_name = ?, rating = ?, comment = ?, is_verified = ? WHERE id = ?');
         return $query->execute(array($customer_name, $rating, $comment, $is_verified, $id));
     }
+    /// categories
+    public function new_category($name, $image)
+    {
+        $query = $this->db->prepare('INSERT INTO categories (name, image) VALUES (?, ?)');
+        return $query->execute(array($name, $image));
+    }
+
+    public function delete_category($id)
+    {
+        $query = $this->db->prepare('DELETE FROM categories WHERE id = ?');
+        return $query->execute(array($id));
+    }
+
+    public function update_category($id, $name, $image)
+    {
+        $query = $this->db->prepare('UPDATE categories SET name = ?, image = ? WHERE id = ?');
+        return $query->execute(array($name, $image, $id));
+    }
+
 
 
     public function __destruct()

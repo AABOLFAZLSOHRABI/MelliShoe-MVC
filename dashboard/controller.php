@@ -62,6 +62,15 @@ class controller
             case 'edit_comment':
                 $this->update_review();
                 break;
+            case 'add_category':
+                $this->new_category();
+                break;
+            case 'edit_category':
+                $this->update_category();
+                break;
+            case 'delete_category':
+                $this->delete_category();
+                break;
             default:
                 break;
         }
@@ -155,6 +164,48 @@ class controller
             );
         }
         header('Location: dashboard.php?tab=comments');
+        exit;
+    }
+    private function new_category()
+    {
+        $name = isset($_POST['name']) && !empty($_POST['name']);
+        $image = isset($_POST['image']) && !empty($_POST['image']) ? $_POST['image'] : null;
+
+        if ($name) {
+            $this->model->new_category(
+                $_POST['name'],
+                $image
+            );
+        }
+        header('Location: dashboard.php?tab=categories');
+        exit;
+    }
+
+    private function delete_category()
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+
+        if ($id > 0) {
+            $this->model->delete_category($id);
+        }
+        header('Location: dashboard.php?tab=categories');
+        exit;
+    }
+
+    private function update_category()
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+        $name = isset($_POST['name']) && !empty($_POST['name']);
+        $image = isset($_POST['image']) && !empty($_POST['image']) ? $_POST['image'] : null;
+
+        if ($id > 0 && $name) {
+            $this->model->update_category(
+                $id,
+                $_POST['name'],
+                $image
+            );
+        }
+        header('Location: dashboard.php?tab=categories');
         exit;
     }
 }

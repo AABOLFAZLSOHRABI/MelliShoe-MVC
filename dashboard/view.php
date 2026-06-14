@@ -344,12 +344,12 @@ class view
                                         <td class="p-3 text-gray-400"><?php echo $category['id']; ?></td>
                                         <td class="font-bold"><?php echo $category['name']; ?></td>
                                         <td class="text-gray-400 text-xs"><?php echo $category['image']; ?></td>
-                                        <td><button type="button" data-modal-open="categoryEditModal"
+                                        <td>
+                                            <button type="button" data-modal-open="categoryEditModal-<?php echo $category['id']; ?>"
                                                 class="text-blue-600 ml-2">ویرایش</button>
-                                            <form action="dashboard/controller.php" method="post" class="inline"><input
-                                                    type="hidden" name="action" value="delete_category"><input type="hidden"
-                                                    name="id" value="1"><button type="submit" class="text-red-600">حذف</button>
-                                            </form>
+                                            <button type="button"
+                                                data-modal-open="categoryDeleteModal-<?php echo $category['id']; ?>"
+                                                class="text-red-600">حذف</button>
                                         </td>
                                     </tr>
                                     <?php
@@ -488,10 +488,10 @@ class view
                 </section>
             </main>
         </div>
-        <!-- modal -->
+        <!-- product modal -->
         <div id="productModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_product">
+                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="add_product">
                     <div class="bg-[#00286d] p-4 flex justify-between items-center">
                         <h3 class="text-white font-extrabold text-base">افزودن محصول</h3><button type="button"
                             data-modal-close="productModal" class="text-white/70 hover:text-white text-2xl leading-5">×</button>
@@ -534,10 +534,11 @@ class view
                 </form>
             </div>
         </div>
+        <!-- product edit modal -->
         <div id="productEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
-                        value="edit_product"><input type="hidden" name="id" value="1">
+                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="edit_product"><input
+                        type="hidden" name="id" value="1">
                     <div class="bg-[#00286d] p-4 flex justify-between items-center">
                         <h3 class="text-white font-extrabold text-base">ویرایش محصول نمونه</h3><button type="button"
                             data-modal-close="productEditModal"
@@ -581,10 +582,10 @@ class view
                 </form>
             </div>
         </div>
-
+        <!-- category modal -->
         <div id="categoryModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_category">
+                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="add_category">
                     <div class="bg-[#00286d] p-4 flex justify-between items-center">
                         <h3 class="text-white font-extrabold">دسته جدید</h3><button type="button"
                             data-modal-close="categoryModal" class="text-white/70 hover:text-white text-2xl">×</button>
@@ -602,27 +603,58 @@ class view
                 </form>
             </div>
         </div>
-        <div id="categoryEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
-            <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
-                        value="edit_category"><input type="hidden" name="id" value="1">
-                    <div class="bg-[#00286d] p-4 flex justify-between items-center">
-                        <h3 class="text-white font-extrabold">ویرایش دسته نمونه</h3><button type="button"
-                            data-modal-close="categoryEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
-                    </div>
-                    <div class="p-5">
-                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام دسته *</label><input
-                                name="name" required value="مردانه" class="w-full p-2 border rounded-xl"></div>
-                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
-                                name="image" value="/img/men.jpg" class="w-full p-2 border rounded-xl"></div>
-                    </div>
-                    <div class="p-4 border-t flex gap-2"><button type="submit"
-                            class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold">ذخیره</button><button
-                            type="button" data-modal-close="categoryEditModal"
-                            class="bg-white border border-gray-300 rounded-xl px-4 py-2 text-sm">انصراف</button></div>
-                </form>
+        <!-- category edit modal -->
+        <?php foreach ($categories as $category) { ?>
+            <div id="categoryEditModal-<?php echo $category['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+                    <form action="dashboard.php" method="post">
+                        <input type="hidden" name="action" value="edit_category">
+                        <input type="hidden" name="id" value="<?php echo $category['id']; ?>">
+                        <div class="p-5">
+                            <div><label>نام دسته *</label><input name="name" value="<?php echo $category['name']; ?>" required
+                                    class="w-full p-2 border rounded-xl"></div>
+                            <div class="mt-3"><label>آدرس تصویر</label><input name="image" value="<?php echo $category['image']; ?>"
+                                    class="w-full p-2 border rounded-xl"></div>
+                        </div>
+                        <div class="p-4 border-t flex gap-2">
+                            <button type="submit" class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button>
+                            <button type="button" data-modal-close="categoryEditModal-<?php echo $category['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php } ?>
+        <!-- category delete modal -->
+        <?php foreach ($categories as $category) { ?>
+            <div id="categoryDeleteModal-<?php echo $category['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <form action="dashboard.php" method="post">
+                        <input type="hidden" name="action" value="delete_category">
+                        <input type="hidden" name="id" value="<?php echo $category['id']; ?>">
+                        <div class="bg-red-600 p-4 flex justify-between">
+                            <h3 class="text-white font-extrabold">حذف دسته</h3>
+                            <button type="button" data-modal-close="categoryDeleteModal-<?php echo $category['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl">×</button>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-sm text-gray-700 leading-7">
+                                آیا از حذف دسته <span class="font-bold text-gray-900">
+                                    <?php echo $category['name']; ?>
+                                </span> مطمئن هستید؟
+                            </p>
+                        </div>
+                        <div class="p-4 border-t flex gap-2">
+                            <button type="submit" class="bg-red-600 text-white rounded-xl px-4 py-2">حذف</button>
+                            <button type="button" data-modal-close="categoryDeleteModal-<?php echo $category['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <?php } ?>
         <!-- add comment modal -->
         <div id="commentModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
@@ -673,8 +705,8 @@ class view
                             </div>
                             <div class="my-3"><label>متن نظر *</label><textarea name="comment" rows="3"
                                     class="w-full p-2 border rounded-xl"><?php echo $review['comment']; ?></textarea></div>
-                            <div class="flex items-center gap-2"><input type="checkbox" name="is_verified"
-                                    value="1" <?php echo $review['is_verified'] == 1 ? 'checked' : ''; ?> class="w-4 h-4"><label
+                            <div class="flex items-center gap-2"><input type="checkbox" name="is_verified" value="1" class="w-4 h-4"
+                                    <?php echo $review['is_verified'] == 1 ? 'checked' : ''; ?>><label
                                     class="text-sm font-semibold text-gray-700">تایید شده</label></div>
                         </div>
                         <div class="p-4 border-t flex gap-2"><button type="submit"
