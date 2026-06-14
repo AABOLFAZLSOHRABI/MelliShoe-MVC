@@ -33,7 +33,7 @@ document.querySelectorAll('[data-tab]').forEach(btn => btn.addEventListener('cli
 document.querySelectorAll('[data-tab-target]').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tabTarget)));
 document.querySelectorAll('[data-modal-open]').forEach(btn => btn.addEventListener('click', () => showModal(btn.dataset.modalOpen)));
 document.querySelectorAll('[data-modal-close]').forEach(btn => btn.addEventListener('click', () => hideModal(btn.dataset.modalClose)));
-document.querySelectorAll('[id$="Modal"]').forEach(modal => modal.addEventListener('click', event => {
+document.querySelectorAll('[id*="Modal"]').forEach(modal => modal.addEventListener('click', event => {
     if (event.target === event.currentTarget) hideModal(modal.id);
 }));
 const params = new URLSearchParams(window.location.search);

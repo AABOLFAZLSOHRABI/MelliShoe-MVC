@@ -12,6 +12,7 @@ class model
             die('Database error: ' . $e->getMessage());
         }
     }
+    // get 
     public function get_products()
     {
         $query = $this->db->query('SELECT * FROM products');
@@ -38,6 +39,8 @@ class model
         $query->execute();
         return $query->fetchAll();
     }
+    // post
+    /// admin
     public function new_admin($username, $email, $password, $created_at, $updated_at)
     {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
@@ -55,6 +58,23 @@ class model
         $query = $this->db->prepare('UPDATE admins SET username = ?, email = ?, updated_at = ? WHERE id = ?');
         return $query->execute(array($username, $email, date('Y-m-d H:i:s'), $id));
     }
+    /// review
+    public function new_review($customer_name, $rating, $comment, $is_verified, $created_at)
+    {
+        $query = $this->db->prepare('INSERT INTO reviews (customer_name, rating, comment, is_verified, created_at) VALUES (?, ?, ?, ?, ?)');
+        return $query->execute(array($customer_name, $rating, $comment, $is_verified, $created_at));
+    }
+    public function delete_review($id)
+    {
+        $query = $this->db->prepare('DELETE FROM reviews WHERE id = ?');
+        return $query->execute(array($id));
+    }
+    public function update_review($id, $customer_name, $rating, $comment, $is_verified)
+    {
+        $query = $this->db->prepare('UPDATE reviews SET customer_name = ?, rating = ?, comment = ?, is_verified = ? WHERE id = ?');
+        return $query->execute(array($customer_name, $rating, $comment, $is_verified, $id));
+    }
+
 
     public function __destruct()
     {

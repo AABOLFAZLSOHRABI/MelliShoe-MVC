@@ -45,7 +45,7 @@ class controller
 
         switch ($action) {
             case 'add_admin':
-                $this->add_admin();
+                $this->new_admin();
                 break;
             case 'delete_admin':
                 $this->delete_admin();
@@ -53,37 +53,108 @@ class controller
             case 'update_admin':
                 $this->update_admin();
                 break;
+            case 'add_comment':
+                $this->new_review();
+                break;
+            case 'delete_comment':
+                $this->delete_review();
+                break;
+            case 'edit_comment':
+                $this->update_review();
+                break;
             default:
                 break;
         }
     }
-    private function add_admin()
+    private function new_admin()
     {
-        $this->model->new_admin(
-            $_POST['username'],
-            $_POST['email'],
-            $_POST['password'],
-            date('Y-m-d H:i:s'),
-            date('Y-m-d H:i:s')
-        );
+        $username = (isset($_POST['username']) && !empty($_POST['username']));
+        $email = (isset($_POST['email']) && !empty($_POST['email']));
+        $password = (isset($_POST['password']) && !empty($_POST['password']));
+
+        if ($username && $email && $password) {
+            $this->model->new_admin(
+                $_POST['username'],
+                $_POST['email'],
+                $_POST['password'],
+                date('Y-m-d H:i:s'),
+                date('Y-m-d H:i:s')
+            );
+        }
         header('Location: dashboard.php?tab=admins');
         exit;
     }
+
     private function delete_admin()
     {
         if (isset($_POST['id']) && !empty($_POST['id'])) {
             $this->model->delete_admin($_POST['id']);
         }
-
         header('Location: dashboard.php?tab=admins');
         exit;
     }
+
     private function update_admin()
     {
-        if (isset($_POST['id']) && !empty($_POST['id'])) {
+        $id = (isset($_POST['id']) && !empty($_POST['id']));
+        $username = (isset($_POST['username']) && !empty($_POST['username']));
+        $email = (isset($_POST['email']) && !empty($_POST['email']));
+
+        if ($id && $username && $email) {
             $this->model->update_admin($_POST['id'], $_POST['username'], $_POST['email']);
         }
         header('Location: dashboard.php?tab=admins');
+        exit;
+    }
+    /// reviews
+    private function new_review()
+    {
+        $customer_name = (isset($_POST['customer_name']) && !empty($_POST['customer_name']));
+        $rating = (isset($_POST['rating']) && !empty($_POST['rating']));
+        $comment = (isset($_POST['comment']) && !empty($_POST['comment']));
+        $is_verified = isset($_POST['is_verified']) ? 1 : 0;
+
+        if ($customer_name && $rating && $comment) {
+            $this->model->new_review(
+                $_POST['customer_name'],
+                $_POST['rating'],
+                $_POST['comment'],
+                $is_verified,
+                date('Y-m-d H:i:s')
+            );
+        }
+        header('Location: dashboard.php?tab=comments');
+        exit;
+    }
+
+    private function delete_review()
+    {
+        $id = (isset($_POST['id']) && !empty($_POST['id']));
+        if ($id) {
+            $this->model->delete_review($_POST['id']);
+        }
+        header('Location: dashboard.php?tab=comments');
+        exit;
+    }
+
+    private function update_review()
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+        $customer_name = isset($_POST['customer_name']) && !empty($_POST['customer_name']);
+        $rating = isset($_POST['rating']) && !empty($_POST['rating']);
+        $comment = isset($_POST['comment']) && !empty($_POST['comment']);
+        $is_verified = isset($_POST['is_verified']) ? 1 : 0;
+
+        if ($id > 0 && $customer_name && $rating && $comment) {
+            $this->model->update_review(
+                $id,
+                $_POST['customer_name'],
+                $_POST['rating'],
+                $_POST['comment'],
+                $is_verified
+            );
+        }
+        header('Location: dashboard.php?tab=comments');
         exit;
     }
 }

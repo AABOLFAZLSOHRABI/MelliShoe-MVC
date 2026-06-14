@@ -303,10 +303,11 @@ class view
                                             <td><?php echo $product['image']; ?></td>
                                             <td><button type="button" data-modal-open="productEditModal"
                                                     class="text-blue-600 font-bold ml-2">ویرایش</button>
-                                                <form action="dashboard/controller.php" method="post" class="inline"><input
-                                                        type="hidden" name="action" value="delete_product"><input type="hidden"
-                                                        name="id" value="1"><button type="submit"
-                                                        class="text-red-600 font-bold">حذف</button></form>
+                                                <form action="dashboard.php" method="post" class="inline">
+                                                    <input type="hidden" name="action" value="delete_product">
+                                                    <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                                                    <button type="submit" class="text-red-600 font-bold">حذف</button>
+                                                </form>
                                             </td>
                                         </tr>
                                         <?php
@@ -414,12 +415,10 @@ class view
 
                                         ?>
                                         <td class="text-xs"><?php echo $review['created_at']; ?></td>
-                                        <td><button type="button" data-modal-open="commentEditModal"
+                                        <td><button type="button" data-modal-open="commentEditModal-<?php echo $review['id']; ?>"
                                                 class="text-blue-600 ml-2">ویرایش</button>
-                                            <form action="dashboard/controller.php" method="post" class="inline"><input
-                                                    type="hidden" name="action" value="delete_comment"><input type="hidden"
-                                                    name="id" value="1"><button type="submit" class="text-red-600">حذف</button>
-                                            </form>
+                                            <button type="button" data-modal-open="commentDeleteModal-<?php echo $review['id']; ?>"
+                                                class="text-red-600">حذف</button>
                                         </td>
                                     </tr>
 
@@ -624,10 +623,10 @@ class view
                 </form>
             </div>
         </div>
-
+        <!-- add comment modal -->
         <div id="commentModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action" value="add_comment">
+                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="add_comment">
                     <div class="bg-[#00286d] p-4 flex justify-between">
                         <h3 class="text-white font-extrabold">ثبت نظر</h3><button type="button" data-modal-close="commentModal"
                             class="text-white/70 hover:text-white text-2xl">×</button>
@@ -651,34 +650,73 @@ class view
                 </form>
             </div>
         </div>
-        <div id="commentEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
-            <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
-                <form action="dashboard/controller.php" method="post"><input type="hidden" name="action"
-                        value="edit_comment"><input type="hidden" name="id" value="1">
-                    <div class="bg-[#00286d] p-4 flex justify-between">
-                        <h3 class="text-white font-extrabold">ویرایش نظر نمونه</h3><button type="button"
-                            data-modal-close="commentEditModal" class="text-white/70 hover:text-white text-2xl">×</button>
-                    </div>
-                    <div class="p-5">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div><label>نام مشتری *</label><input name="customer_name" value="مهدی کریمی" required
-                                    class="w-full p-2 border rounded-xl"></div>
-                            <div><label>امتیاز (1-5) *</label><input name="rating" type="number" min="1" max="5" value="5"
-                                    required class="w-full p-2 border rounded-xl"></div>
+        <!-- edit comment modal -->
+        <?php foreach ($reviews as $review) { ?>
+            <div id="commentEditModal-<?php echo $review['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
+                    <form action="dashboard.php" method="post"><input type="hidden" name="action" value="edit_comment"><input
+                            type="hidden" name="id" value="<?php echo $review['id']; ?>">
+                        <div class="bg-[#00286d] p-4 flex justify-between">
+                            <h3 class="text-white font-extrabold">ویرایش نظر</h3><button type="button"
+                                data-modal-close="commentEditModal-<?php echo $review['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl">×</button>
                         </div>
-                        <div class="my-3"><label>متن نظر *</label><textarea name="comment" rows="3"
-                                class="w-full p-2 border rounded-xl">کیفیت عالی، ارسال سریع</textarea></div>
-                        <div class="flex items-center gap-2"><input type="checkbox" name="is_verified" value="1" checked
-                                class="w-4 h-4"><label class="text-sm font-semibold text-gray-700">تایید شده</label></div>
-                    </div>
-                    <div class="p-4 border-t flex gap-2"><button type="submit"
-                            class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
-                            data-modal-close="commentEditModal" class="bg-white border rounded-xl px-4 py-2">انصراف</button>
-                    </div>
-                </form>
+                        <div class="p-5">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label>نام مشتری *</label><input name="customer_name"
+                                        value="<?php echo $review['customer_name']; ?>" required
+                                        class="w-full p-2 border rounded-xl"></div>
+                                <div><label>امتیاز (1-5) *</label><input name="rating" type="number" min="1" max="5"
+                                        value="<?php echo $review['rating']; ?>" required class="w-full p-2 border rounded-xl">
+                                </div>
+                            </div>
+                            <div class="my-3"><label>متن نظر *</label><textarea name="comment" rows="3"
+                                    class="w-full p-2 border rounded-xl"><?php echo $review['comment']; ?></textarea></div>
+                            <div class="flex items-center gap-2"><input type="checkbox" name="is_verified"
+                                    value="1" <?php echo $review['is_verified'] == 1 ? 'checked' : ''; ?> class="w-4 h-4"><label
+                                    class="text-sm font-semibold text-gray-700">تایید شده</label></div>
+                        </div>
+                        <div class="p-4 border-t flex gap-2"><button type="submit"
+                                class="bg-[#00286d] text-white rounded-xl px-4 py-2">ذخیره</button><button type="button"
+                                data-modal-close="commentEditModal-<?php echo $review['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-
+        <?php } ?>
+        <!-- Delete comment modal -->
+        <?php foreach ($reviews as $review) { ?>
+            <div id="commentDeleteModal-<?php echo $review['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <form action="dashboard.php" method="post">
+                        <input type="hidden" name="action" value="delete_comment">
+                        <input type="hidden" name="id" value="<?php echo $review['id']; ?>">
+                        <div class="bg-red-600 p-4 flex justify-between">
+                            <h3 class="text-white font-extrabold">حذف نظر</h3>
+                            <button type="button" data-modal-close="commentDeleteModal-<?php echo $review['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl">×</button>
+                        </div>
+                        <div class="p-5">
+                            <p class="text-sm text-gray-700 leading-7">
+                                آیا از حذف نظر
+                                <span class="font-bold text-gray-900"><?php echo $review['customer_name']; ?></span>
+                                مطمئن هستید؟
+                            </p>
+                            <p class="mt-2 text-xs text-gray-400 truncate"><?php echo $review['comment']; ?></p>
+                        </div>
+                        <div class="p-4 border-t flex gap-2">
+                            <button type="submit" class="bg-red-600 text-white rounded-xl px-4 py-2">حذف</button>
+                            <button type="button" data-modal-close="commentDeleteModal-<?php echo $review['id']; ?>"
+                                class="bg-white border rounded-xl px-4 py-2">انصراف</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <?php } ?>
+        <!-- add admin modal -->
         <div id="adminModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
                 <form action="dashboard.php" method="post"><input type="hidden" name="action" value="add_admin">
@@ -702,6 +740,7 @@ class view
                 </form>
             </div>
         </div>
+        <!-- update admin modal -->
         <?php foreach ($admins as $admin) { ?>
             <div id="adminUpdateModal-<?php echo $admin['id']; ?>"
                 class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
@@ -731,6 +770,7 @@ class view
                 </div>
             </div>
         <?php } ?>
+        <!-- delete admin modal -->
         <?php foreach ($admins as $admin) { ?>
             <div id="adminDeleteModal-<?php echo $admin['id']; ?>"
                 class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
