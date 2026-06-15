@@ -93,7 +93,24 @@ class model
         return $query->execute(array($name, $image, $id));
     }
 
+    /// products
+    public function new_product($category_id, $name, $brand, $count, $image, $price, $old_price)
+    {
+        $query = $this->db->prepare('INSERT INTO products (category_id, name, brand, count, image, price, old_price) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        return $query->execute(array($category_id, $name, $brand, $count, $image, $price, $old_price));
+    }
 
+    public function delete_product($id)
+    {
+        $query = $this->db->prepare('DELETE FROM products WHERE id = ?');
+        return $query->execute(array($id));
+    }
+    
+    public function update_product($id, $category_id, $name, $brand, $count, $image, $price, $old_price)
+    {
+        $query = $this->db->prepare('UPDATE products SET category_id = ?, name = ?, brand = ?, count = ?, image = ?, price = ?, old_price = ? WHERE id = ?');
+        return $query->execute(array($category_id, $name, $brand, $count, $image, $price, $old_price, $id));
+    }
 
     public function __destruct()
     {

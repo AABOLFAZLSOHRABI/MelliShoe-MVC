@@ -301,7 +301,7 @@ class view
                                             </td>
                                             <td class="text-xs text-gray-400"><?php echo $product['updated_at']; ?></td>
                                             <td><?php echo $product['image']; ?></td>
-                                            <td><button type="button" data-modal-open="productEditModal"
+                                            <td><button type="button" data-modal-open="productEditModal-<?php echo $product['id']; ?>"
                                                     class="text-blue-600 font-bold ml-2">ویرایش</button>
                                                 <form action="dashboard.php" method="post" class="inline">
                                                     <input type="hidden" name="action" value="delete_product">
@@ -509,11 +509,14 @@ class view
                             <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
                                     *</label><select name="category_id" required
                                     class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
-                                    <option value="1">مردانه</option>
-                                    <option value="2">زنانه</option>
-                                    <option value="3">بچگانه</option>
+                                    <?php foreach ($categories as $category) { ?>
+                                        <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
+                                    <?php } ?>
                                 </select></div>
                         </div>
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">تعداد</label><input
+                                name="count" type="number" placeholder="0"
+                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
                                     *</label><input name="price" type="number" required placeholder="0"
@@ -522,8 +525,8 @@ class view
                                     (تومان)</label><input name="old_price" type="number" placeholder="0"
                                     class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
                         </div>
-                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
-                                name="image" type="text" placeholder="images/shoe.jpg"
+                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر *</label><input
+                                name="image" type="text" required placeholder="images/shoe.jpg"
                                 class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
                     </div>
                     <div class="p-4 border-t border-gray-100 flex gap-2"><button type="submit"
@@ -535,53 +538,60 @@ class view
             </div>
         </div>
         <!-- product edit modal -->
-        <div id="productEditModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
-            <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-                <form action="dashboard.php" method="post"><input type="hidden" name="action" value="edit_product"><input
-                        type="hidden" name="id" value="1">
-                    <div class="bg-[#00286d] p-4 flex justify-between items-center">
-                        <h3 class="text-white font-extrabold text-base">ویرایش محصول نمونه</h3><button type="button"
-                            data-modal-close="productEditModal"
-                            class="text-white/70 hover:text-white text-2xl leading-5">×</button>
-                    </div>
-                    <div class="p-5">
-                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام محصول
-                                *</label><input name="name" type="text" required value="کفش نایک ایر مکس"
-                                class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+        <?php foreach ($products as $product) { ?>
+            <div id="productEditModal-<?php echo $product['id']; ?>"
+                class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
+                <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <form action="dashboard.php" method="post">
+                        <input type="hidden" name="action" value="update_product">
+                        <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                        <div class="bg-[#00286d] p-4 flex justify-between items-center">
+                            <h3 class="text-white font-extrabold text-base">ویرایش محصول</h3><button type="button"
+                                data-modal-close="productEditModal-<?php echo $product['id']; ?>"
+                                class="text-white/70 hover:text-white text-2xl leading-5">×</button>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">برند محصول
-                                    *</label><input name="brand" type="text" required value="نایک"
+                        <div class="p-5">
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">نام محصول
+                                    *</label><input name="name" type="text" required value="<?php echo $product['name']; ?>"
                                     class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
                             </div>
-                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
-                                    *</label><select name="category_id" required
-                                    class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
-                                    <option value="1" selected>مردانه</option>
-                                    <option value="2">زنانه</option>
-                                    <option value="3">بچگانه</option>
-                                </select></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
-                                    *</label><input name="price" type="number" required value="2850000"
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">برند محصول
+                                        *</label><input name="brand" type="text" required value="<?php echo $product['brand']; ?>"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                                </div>
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">دسته‌بندی
+                                        *</label><select name="category_id" required
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm focus:border-[#00286d] outline-none">
+                                        <?php foreach ($categories as $category) { ?>
+                                            <option value="<?php echo $category['id']; ?>" <?php echo $category['id'] == $product['category_id'] ? 'selected' : ''; ?>><?php echo $category['name']; ?></option>
+                                        <?php } ?>
+                                    </select></div>
+                            </div>
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">تعداد</label><input
+                                    name="count" type="number" value="<?php echo $product['count']; ?>"
                                     class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت قبل
-                                    (تومان)</label><input name="old_price" type="number" value="3490000"
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت (تومان)
+                                        *</label><input name="price" type="number" required value="<?php echo $product['price']; ?>"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                                <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">قیمت قبل
+                                        (تومان)</label><input name="old_price" type="number" value="<?php echo $product['old_price']; ?>"
+                                        class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
+                            </div>
+                            <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر *</label><input
+                                    name="image" type="text" required value="<?php echo $product['image']; ?>"
                                     class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
                         </div>
-                        <div class="mb-3"><label class="block text-sm font-bold text-gray-700 mb-1">آدرس تصویر</label><input
-                                name="image" type="text" value="/shoes/nike1.jpg"
-                                class="w-full p-2 border border-gray-200 rounded-xl text-sm"></div>
-                    </div>
-                    <div class="p-4 border-t border-gray-100 flex gap-2"><button type="submit"
-                            class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-[#001f54] transition">ذخیره</button><button
-                            type="button" data-modal-close="productEditModal"
-                            class="bg-white text-gray-700 border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold hover:bg-gray-50">انصراف</button>
-                    </div>
-                </form>
+                        <div class="p-4 border-t border-gray-100 flex gap-2"><button type="submit"
+                                class="bg-[#00286d] text-white rounded-xl px-4 py-2 text-sm font-bold hover:bg-[#001f54] transition">ذخیره</button><button
+                                type="button" data-modal-close="productEditModal-<?php echo $product['id']; ?>"
+                                class="bg-white text-gray-700 border border-gray-300 rounded-xl px-4 py-2 text-sm font-semibold hover:bg-gray-50">انصراف</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php } ?>
         <!-- category modal -->
         <div id="categoryModal" class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
             <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
@@ -687,7 +697,7 @@ class view
             <div id="commentEditModal-<?php echo $review['id']; ?>"
                 class="fixed inset-0 z-50 bg-black/45 flex items-center justify-center p-4 hidden">
                 <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden">
-                    <form action="dashboard.php" method="post"><input type="hidden" name="action" value="edit_comment"><input
+                    <form action="dashboard.php" method="post"><input type="hidden" name="action" value="update_comment"><input
                             type="hidden" name="id" value="<?php echo $review['id']; ?>">
                         <div class="bg-[#00286d] p-4 flex justify-between">
                             <h3 class="text-white font-extrabold">ویرایش نظر</h3><button type="button"

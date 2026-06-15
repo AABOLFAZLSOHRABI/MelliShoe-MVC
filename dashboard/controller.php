@@ -59,7 +59,7 @@ class controller
             case 'delete_comment':
                 $this->delete_review();
                 break;
-            case 'edit_comment':
+            case 'update_comment':
                 $this->update_review();
                 break;
             case 'add_category':
@@ -70,6 +70,15 @@ class controller
                 break;
             case 'delete_category':
                 $this->delete_category();
+                break;
+            case 'add_product':
+                $this->new_product();
+                break;
+            case 'delete_product':
+                $this->delete_product();
+                break;
+            case 'update_product':
+                $this->update_product();
                 break;
             default:
                 break;
@@ -166,6 +175,7 @@ class controller
         header('Location: dashboard.php?tab=comments');
         exit;
     }
+    /// categories
     private function new_category()
     {
         $name = isset($_POST['name']) && !empty($_POST['name']);
@@ -206,6 +216,68 @@ class controller
             );
         }
         header('Location: dashboard.php?tab=categories');
+        exit;
+    }
+    /// products
+    private function new_product()
+    {
+        $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : 0;
+        $name = isset($_POST['name']) && !empty($_POST['name']);
+        $brand = isset($_POST['brand']) && !empty($_POST['brand']);
+        $count = isset($_POST['count']) && $_POST['count'] !== '' ? (int) $_POST['count'] : null;
+        $image = isset($_POST['image']) && !empty($_POST['image']);
+        $price = isset($_POST['price']) ? (int) $_POST['price'] : 0;
+        $old_price = isset($_POST['old_price']) && $_POST['old_price'] !== '' ? (int) $_POST['old_price'] : null;
+
+        if ($category_id > 0 && $name && $brand && $image && $price > 0) {
+            $this->model->new_product(
+                $category_id,
+                $_POST['name'],
+                $_POST['brand'],
+                $count,
+                $_POST['image'],
+                $price,
+                $old_price
+            );
+        }
+        header('Location: dashboard.php?tab=products');
+        exit;
+    }
+    private function delete_product()
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+
+        if ($id > 0) {
+            $this->model->delete_product($id);
+        }
+        header('Location: dashboard.php?tab=products');
+        exit;
+    }
+
+    private function update_product()
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+        $category_id = isset($_POST['category_id']) ? (int) $_POST['category_id'] : 0;
+        $name = isset($_POST['name']) && !empty($_POST['name']);
+        $brand = isset($_POST['brand']) && !empty($_POST['brand']);
+        $count = isset($_POST['count']) && $_POST['count'] !== '' ? (int) $_POST['count'] : null;
+        $image = isset($_POST['image']) && !empty($_POST['image']);
+        $price = isset($_POST['price']) ? (int) $_POST['price'] : 0;
+        $old_price = isset($_POST['old_price']) && $_POST['old_price'] !== '' ? (int) $_POST['old_price'] : null;
+
+        if ($id > 0 && $category_id > 0 && $name && $brand && $image && $price > 0) {
+            $this->model->update_product(
+                $id,
+                $category_id,
+                $_POST['name'],
+                $_POST['brand'],
+                $count,
+                $_POST['image'],
+                $price,
+                $old_price,
+            );
+        }
+        header('Location: dashboard.php?tab=products');
         exit;
     }
 }
