@@ -18,10 +18,10 @@ class model
         $query->execute(array($email));
         return $query->fetch();
     }
-    public function update_admin($id, $last_login_at)
+     public function update_admin($id)
     {
         $query = $this->db->prepare('UPDATE admins SET last_login_at = ? WHERE id = ?');
-        return $query->execute($last_login_at, $id);
+        return $query->execute(array(date('Y-m-d H:i:s'), $id));
     }
 
     public function __destruct()

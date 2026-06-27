@@ -30,7 +30,7 @@ class controller
                 if (isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['password']) && !empty($_POST['password'])) {
                     $admin = $this->model->get_admin($_POST['email']);
                     if ($admin && password_verify($_POST['password'], $admin['password_hash'])) {
-                        $this->model->update_admin(array(date('Y-m-d H:i:s')),$admin['id']);
+                        $this->model->update_admin($admin['id']);
                         $_SESSION['admin_panel'] = $admin['id'];
                         header('Location: dashboard.php');
                     } else {
