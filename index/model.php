@@ -7,7 +7,7 @@ class model
     public function __construct()
     {
         try {
-            $this->db = new PDO('mysql:host=localhost;port=3307;dbname=meli', 'root', '');
+            $this->db = new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE') . ';charset=utf8mb4', getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
         } catch (PDOException $e) {
             die('Database error: ' . $e->getMessage());
         }
