@@ -1,6 +1,5 @@
-﻿<?php
+<?php
 
-// Made by AI (kharej az dars)
 require __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
