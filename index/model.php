@@ -7,7 +7,9 @@ class model
     public function __construct()
     {
         try {
-            $this->db = new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE') . ';charset=utf8mb4', getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
+            // Made by AI (kharej az dars)
+            require_once __DIR__ . '/../config/database.php';
+            $this->db = $pdo;
         } catch (PDOException $e) {
             die('Database error: ' . $e->getMessage());
         }
@@ -22,11 +24,12 @@ class model
         $query = $this->db->query('SELECT * FROM products');
         return $query->fetchAll();
     }
-    public function get_reviews(){
+    public function get_reviews()
+    {
         $quwery = $this->db->query('SELECT * FROM reviews');
         return $quwery->fetchAll();
     }
-    public function __destruct() 
+    public function __destruct()
     {
         $this->db = null;
     }

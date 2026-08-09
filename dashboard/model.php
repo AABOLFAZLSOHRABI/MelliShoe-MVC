@@ -7,7 +7,9 @@ class model
     public function __construct()
     {
         try {
-            $this->db = new PDO('mysql:host=' . getenv('DB_HOST') . ';port=' . getenv('DB_PORT') . ';dbname=' . getenv('DB_DATABASE') . ';charset=utf8mb4', getenv('DB_USERNAME'), getenv('DB_PASSWORD'));
+            // Made by AI (kharej az dars)
+            require_once __DIR__ . '/../config/database.php';
+            $this->db = $pdo;
         } catch (PDOException $e) {
             die('Database error: ' . $e->getMessage());
         }
@@ -105,7 +107,7 @@ class model
         $query = $this->db->prepare('DELETE FROM products WHERE id = ?');
         return $query->execute(array($id));
     }
-    
+
     public function update_product($id, $category_id, $name, $brand, $count, $image, $price, $old_price)
     {
         $query = $this->db->prepare('UPDATE products SET category_id = ?, name = ?, brand = ?, count = ?, image = ?, price = ?, old_price = ? WHERE id = ?');

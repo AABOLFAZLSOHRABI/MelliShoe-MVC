@@ -1,0 +1,17 @@
+{
+    "name": "abolfazl/melli-shoe-mvc",
+    "autoload": {
+        "psr-4": {
+            "Abolfazl\\MelliShoeMvc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "abolfazl",
+            "email": "aabolfazlsohrabir@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
